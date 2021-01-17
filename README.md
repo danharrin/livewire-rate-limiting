@@ -10,13 +10,6 @@
 
 This package allows you to apply rate limiters to Laravel Livewire actions. This is useful for throttling login attempts and other brute force attacks, reducing spam, and more.
 
-## Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](#api-reference)
-- [Need Help?](#need-help)
-
 ## Installation
 
 You can use Composer to install this package into your application:

@@ -45,7 +45,11 @@ class Login extends Component
 }
 ```
 
-In this example, we will set up rate limiting on the `submit` action. The user will only be able to submit this action 10 times every minute. If this limit is exceeded, a `TooManyRequestsException` will be thrown. The user is presented with a validation error and instructed how long they have until the limit is lifted:
+In this example, we will set up rate limiting on the `submit` action.
+
+The user will only be able to submit this action 10 times every minute.
+
+If this limit is exceeded, a `TooManyRequestsException` will be thrown. The user is presented with a validation error and instructed how long they have until the limit is lifted:
 
 ```php
 <?php

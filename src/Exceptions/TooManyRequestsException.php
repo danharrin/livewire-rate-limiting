@@ -6,12 +6,16 @@ use Exception;
 
 class TooManyRequestsException extends Exception
 {
+    /** @var string */
     public $component;
 
+    /** @var string */
     public $ip;
 
+    /** @var string */
     public $method;
 
+    /** @var int */
     public $secondsUntilAvailable;
 
     public function __construct($component, $method, $ip, $secondsUntilAvailable)
@@ -21,6 +25,12 @@ class TooManyRequestsException extends Exception
         $this->method = $method;
         $this->secondsUntilAvailable = $secondsUntilAvailable;
 
-        parent::__construct("Too many requests from [$this->ip] to method [$this->method] on component: [$this->component]. Retry in $this->secondsUntilAvailable seconds.");
+        parent::__construct(sprintf(
+            'Too many requests from [%s] to method [%s] on component: [%s]. Retry in %d seconds.',
+            $this->ip,
+            $this->method,
+            $this->component,
+            $this->secondsUntilAvailable
+        ));
     }
 }

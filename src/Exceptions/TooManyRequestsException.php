@@ -6,16 +6,12 @@ use Exception;
 
 class TooManyRequestsException extends Exception
 {
-    /** @var string */
     public $component;
 
-    /** @var string */
     public $ip;
 
-    /** @var string */
     public $method;
 
-    /** @var int */
     public $secondsUntilAvailable;
 
     public function __construct($component, $method, $ip, $secondsUntilAvailable)

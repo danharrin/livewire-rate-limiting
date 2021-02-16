@@ -129,4 +129,4 @@ try {
 
 🤔 If you have a question or feature request, please [start a new discussion](https://github.com/danharrin/livewire-rate-limiting/discussions/new).
 
-🔐 If you discover a vulnerability within the package, please review our [security policy](https://github.com/danharrin/livewire-rate-limiting/blob/master/SECURITY.md).
+🔐 If you discover a vulnerability within the package, please review our [security policy](https://github.com/danharrin/livewire-rate-limiting/blob/main/SECURITY.md).

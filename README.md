@@ -119,6 +119,7 @@ try {
     $exception->component; // Class of the component that the rate limit was hit within.
     $exception->ip; // IP of the user that has hit the rate limit.
     $exception->method; // Name of the method that has hit the rate limit.
+    $exception->minutesUntilAvailable; // Number of minutes until the rate limit is lifted, rounded up.
     $exception->secondsUntilAvailable; // Number of seconds until the rate limit is lifted.
 }
 ```

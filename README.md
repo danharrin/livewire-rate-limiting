@@ -20,6 +20,8 @@ composer require danharrin/livewire-rate-limiting
 
 This package requires at least Laravel v8.x, when rate limiting improvements were introduced.
 
+This package is tested to support the `file` and `redis` cache drivers, but not `array`.
+
 ## Usage
 
 Apply the `DanHarrin\LivewireRateLimiting\WithRateLimiting` trait to your Livewire component:

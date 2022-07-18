@@ -55,6 +55,7 @@ namespace App\Http\Livewire\Login;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Login extends Component
@@ -66,9 +67,9 @@ class Login extends Component
         try {
             $this->rateLimit(10);
         } catch (TooManyRequestsException $exception) {
-            $this->addError('email', "Slow down! Please wait another $exception->secondsUntilAvailable seconds to log in.");
-            
-            return;
+            throw ValidationException::withMessages([
+                'email' => "Slow down! Please wait another {$exception->secondsUntilAvailable} seconds to log in.",
+            ])
         }
         
         // ...

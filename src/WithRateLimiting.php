@@ -20,7 +20,7 @@ trait WithRateLimiting
     {
         if (! $method) $method = debug_backtrace()[1]['function'];
 
-        return static::class.'|'.$method.'|'.request()->ip();
+        return sha1(static::class.'|'.$method.'|'.request()->ip());
     }
 
     protected function hitRateLimiter($method = null, $decaySeconds = 60)

@@ -20,8 +20,8 @@
     "require-dev": {
         "livewire/livewire": "^2.3",
         "orchestra/testbench": "^6.2|^7.0|^8.0",
-        "phpunit/phpunit": "^9.4",
-        "symplify/monorepo-builder": "^9.0"
+        "phpunit/phpunit": "^9.4|^10.0",
+        "symplify/monorepo-builder": "^9.0|^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {
@@ -36,5 +36,5 @@
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

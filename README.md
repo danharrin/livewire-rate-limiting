@@ -69,7 +69,7 @@ class Login extends Component
         } catch (TooManyRequestsException $exception) {
             throw ValidationException::withMessages([
                 'email' => "Slow down! Please wait another {$exception->secondsUntilAvailable} seconds to log in.",
-            ])
+            ]);
         }
         
         // ...

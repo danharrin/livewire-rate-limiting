@@ -12,15 +12,18 @@ class TooManyRequestsException extends Exception
 
     public $method;
 
+    public $class;
+
     public $minutesUntilAvailable;
 
     public $secondsUntilAvailable;
 
-    public function __construct($component, $method, $ip, $secondsUntilAvailable)
+    public function __construct($component, $method, $ip, $secondsUntilAvailable, $class)
     {
         $this->component = $component;
         $this->ip = $ip;
         $this->method = $method;
+        $this->class = $class;
         $this->secondsUntilAvailable = $secondsUntilAvailable;
 
         $this->minutesUntilAvailable = ceil($this->secondsUntilAvailable / 60);
@@ -31,6 +34,7 @@ class TooManyRequestsException extends Exception
             $this->method,
             $this->component,
             $this->secondsUntilAvailable,
+            $this->class,
         ));
     }
 }

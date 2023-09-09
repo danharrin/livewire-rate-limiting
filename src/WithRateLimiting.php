@@ -7,45 +7,53 @@ use Illuminate\Support\Facades\RateLimiter;
 
 trait WithRateLimiting
 {
-    protected function clearRateLimiter($method = null)
+    protected function clearRateLimiter($method = null, $class = null)
     {
         if (! $method) $method = debug_backtrace()[1]['function'];
 
-        $key = $this->getRateLimitKey($method);
+        if (! $class) $class = static::class;
+
+        $key = $this->getRateLimitKey($method, $class);
 
         RateLimiter::clear($key);
     }
 
-    protected function getRateLimitKey($method)
+    protected function getRateLimitKey($method, $class)
     {
         if (! $method) $method = debug_backtrace()[1]['function'];
 
-        return sha1(static::class.'|'.$method.'|'.request()->ip());
+        if (! $class) $class = static::class;
+
+        return sha1($class.'|'.$method.'|'.request()->ip());
     }
 
-    protected function hitRateLimiter($method = null, $decaySeconds = 60)
+    protected function hitRateLimiter($method = null, $decaySeconds = 60, $class = null)
     {
         if (! $method) $method = debug_backtrace()[1]['function'];
 
-        $key = $this->getRateLimitKey($method);
+        if (! $class) $class = static::class;
+
+        $key = $this->getRateLimitKey($method, $class);
 
         RateLimiter::hit($key, $decaySeconds);
     }
 
-    protected function rateLimit($maxAttempts, $decaySeconds = 60, $method = null)
+    protected function rateLimit($maxAttempts, $decaySeconds = 60, $method = null, $class = null)
     {
         if (! $method) $method = debug_backtrace()[1]['function'];
 
-        $key = $this->getRateLimitKey($method);
+        if (! $class) $class = static::class;
+
+        $key = $this->getRateLimitKey($method, $class);
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             $component = static::class;
             $ip = request()->ip();
             $secondsUntilAvailable = RateLimiter::availableIn($key);
 
-            throw new TooManyRequestsException($component, $method, $ip, $secondsUntilAvailable);
+            throw new TooManyRequestsException($component, $method, $ip, $secondsUntilAvailable, $class);
         }
 
-        $this->hitRateLimiter($method, $decaySeconds);
+        $this->hitRateLimiter($method, $decaySeconds, $class);
     }
 }

@@ -11,7 +11,7 @@ trait WithRateLimiting
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        if (! $class) $class = static::class;
+        $class ??= static::class;
 
         $key = $this->getRateLimitKey($method, $class);
 
@@ -22,7 +22,7 @@ trait WithRateLimiting
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        if (! $class) $class = static::class;
+        $class ??= static::class;
 
         return sha1($class.'|'.$method.'|'.request()->ip());
     }
@@ -31,7 +31,7 @@ trait WithRateLimiting
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        if (! $class) $class = static::class;
+        $class ??= static::class;
 
         $key = $this->getRateLimitKey($method, $class);
 
@@ -42,7 +42,7 @@ trait WithRateLimiting
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        if (! $class) $class = static::class;
+        $class ??= static::class;
 
         $key = $this->getRateLimitKey($method, $class);
 

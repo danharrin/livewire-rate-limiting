@@ -4,6 +4,7 @@ namespace DanHarrin\LivewireRateLimiting\Tests;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Livewire\Livewire;
+use Livewire\Volt\Volt;
 
 class RateLimitingTest extends TestCase
 {
@@ -41,6 +42,51 @@ class RateLimitingTest extends TestCase
             ->call('clear')
             ->call('limit')
             ->assertSet('secondsUntilAvailable', 0);
+    }
+
+    /** @test */
+    public function can_rate_limit_volt()
+    {
+        $this->mountVolt();
+        $component = Volt::test('volt-component');
+
+        $component
+            ->call('limit')
+            ->assertSet('secondsUntilAvailable', 0)
+            ->call('limit')
+            ->assertSet('secondsUntilAvailable', 0)
+            ->call('limit')
+            ->assertSet('secondsUntilAvailable', 0)
+            ->call('limit')
+            ->assertNotSet('secondsUntilAvailable', 0);
+
+        sleep(1);
+
+        $component
+            ->call('limit')
+            ->assertSet('secondsUntilAvailable', 0);
+    }
+
+    /** @test */
+    public function can_hit_and_clear_rate_limiter_volt()
+    {
+        $this->mountVolt();
+        Volt::test('volt-component')
+            ->call('hit')
+            ->call('hit')
+            ->call('hit')
+            ->call('limit')
+            ->assertNotSet('secondsUntilAvailable', 0)
+            ->call('clear')
+            ->call('limit')
+            ->assertSet('secondsUntilAvailable', 0);
+    }
+
+    protected function mountVolt()
+    {
+        Volt::mount([
+            __DIR__ . '/views',
+        ]);
     }
 }
 

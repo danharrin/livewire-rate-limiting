@@ -7,45 +7,52 @@ use Illuminate\Support\Facades\RateLimiter;
 
 trait WithRateLimiting
 {
-    protected function clearRateLimiter($method = null)
+    protected function clearRateLimiter($method = null, $component = null)
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        $key = $this->getRateLimitKey($method);
+        $component ??= static::class;
+
+        $key = $this->getRateLimitKey($method, $component);
 
         RateLimiter::clear($key);
     }
 
-    protected function getRateLimitKey($method)
+    protected function getRateLimitKey($method, $component)
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        return sha1(static::class.'|'.$method.'|'.request()->ip());
+        $component ??= static::class;
+
+        return sha1($component.'|'.$method.'|'.request()->ip());
     }
 
-    protected function hitRateLimiter($method = null, $decaySeconds = 60)
+    protected function hitRateLimiter($method = null, $decaySeconds = 60, $component = null)
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        $key = $this->getRateLimitKey($method);
+        $component ??= static::class;
+
+        $key = $this->getRateLimitKey($method, $component);
 
         RateLimiter::hit($key, $decaySeconds);
     }
 
-    protected function rateLimit($maxAttempts, $decaySeconds = 60, $method = null)
+    protected function rateLimit($maxAttempts, $decaySeconds = 60, $method = null, $component = null)
     {
         $method ??= debug_backtrace(limit: 2)[1]['function'];
 
-        $key = $this->getRateLimitKey($method);
+        $component ??= static::class;
+
+        $key = $this->getRateLimitKey($method, $component);
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
-            $component = static::class;
             $ip = request()->ip();
             $secondsUntilAvailable = RateLimiter::availableIn($key);
 
             throw new TooManyRequestsException($component, $method, $ip, $secondsUntilAvailable);
         }
 
-        $this->hitRateLimiter($method, $decaySeconds);
+        $this->hitRateLimiter($method, $decaySeconds, $component);
     }
 }

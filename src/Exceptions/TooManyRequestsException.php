@@ -6,23 +6,14 @@ use Exception;
 
 class TooManyRequestsException extends Exception
 {
-    public $component;
-
-    public $ip;
-
-    public $method;
-
     public $minutesUntilAvailable;
 
-    public $secondsUntilAvailable;
-
-    public function __construct($component, $method, $ip, $secondsUntilAvailable)
-    {
-        $this->component = $component;
-        $this->ip = $ip;
-        $this->method = $method;
-        $this->secondsUntilAvailable = $secondsUntilAvailable;
-
+    public function __construct(
+        public $component,
+        public $method,
+        public $ip,
+        public $secondsUntilAvailable
+    ) {
         $this->minutesUntilAvailable = ceil($this->secondsUntilAvailable / 60);
 
         parent::__construct(sprintf(

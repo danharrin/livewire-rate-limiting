@@ -9,7 +9,7 @@ trait WithRateLimiting
 {
     protected function clearRateLimiter($method = null)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         $key = $this->getRateLimitKey($method);
 
@@ -18,14 +18,14 @@ trait WithRateLimiting
 
     protected function getRateLimitKey($method)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         return sha1(static::class.'|'.$method.'|'.request()->ip());
     }
 
     protected function hitRateLimiter($method = null, $decaySeconds = 60)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         $key = $this->getRateLimitKey($method);
 
@@ -34,7 +34,7 @@ trait WithRateLimiting
 
     protected function rateLimit($maxAttempts, $decaySeconds = 60, $method = null)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         $key = $this->getRateLimitKey($method);
 

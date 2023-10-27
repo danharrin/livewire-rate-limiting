@@ -10,18 +10,18 @@ new class extends Component {
 
     public function clear()
     {
-        $this->clearRateLimiter('limit', class: 'VoltComponent');
+        $this->clearRateLimiter('limit', component: 'VoltComponent');
     }
 
     public function hit()
     {
-        $this->hitRateLimiter('limit', 1, class: 'VoltComponent');
+        $this->hitRateLimiter('limit', 1, component: 'VoltComponent');
     }
 
     public function limit()
     {
         try {
-            $this->rateLimit(3, 1, class: 'VoltComponent');
+            $this->rateLimit(3, 1, component: 'VoltComponent');
         } catch (TooManyRequestsException $exception) {
             return $this->secondsUntilAvailable = $exception->secondsUntilAvailable;
         }

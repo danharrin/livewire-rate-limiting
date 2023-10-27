@@ -13,7 +13,6 @@ class TooManyRequestsException extends Exception
         public $method,
         public $ip,
         public $secondsUntilAvailable,
-        public $component = null,
     ) {
         $this->minutesUntilAvailable = ceil($this->secondsUntilAvailable / 60);
 
@@ -23,7 +22,6 @@ class TooManyRequestsException extends Exception
             $this->method,
             $this->component,
             $this->secondsUntilAvailable,
-            $this->component,
         ));
     }
 }

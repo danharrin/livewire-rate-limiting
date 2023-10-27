@@ -9,7 +9,7 @@ trait WithRateLimiting
 {
     protected function clearRateLimiter($method = null, $class = null)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         if (! $class) $class = static::class;
 
@@ -20,7 +20,7 @@ trait WithRateLimiting
 
     protected function getRateLimitKey($method, $class)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         if (! $class) $class = static::class;
 
@@ -29,7 +29,7 @@ trait WithRateLimiting
 
     protected function hitRateLimiter($method = null, $decaySeconds = 60, $class = null)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         if (! $class) $class = static::class;
 
@@ -40,7 +40,7 @@ trait WithRateLimiting
 
     protected function rateLimit($maxAttempts, $decaySeconds = 60, $method = null, $class = null)
     {
-        if (! $method) $method = debug_backtrace()[1]['function'];
+        $method ??= debug_backtrace(limit: 2)[1]['function'];
 
         if (! $class) $class = static::class;
 

@@ -7,52 +7,52 @@ use Illuminate\Support\Facades\RateLimiter;
 
 trait WithRateLimiting
 {
-    protected function clearRateLimiter($method = null, $component = null)
+    protected function clearRateLimiter($target = null, $component = null)
     {
-        $method ??= debug_backtrace(limit: 2)[1]['function'];
+        $target ??= debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'];
 
         $component ??= static::class;
 
-        $key = $this->getRateLimitKey($method, $component);
+        $key = $this->getRateLimitKey($target, $component);
 
         RateLimiter::clear($key);
     }
 
-    protected function getRateLimitKey($method, $component = null)
+    protected function getRateLimitKey($target, $component = null)
     {
-        $method ??= debug_backtrace(limit: 2)[1]['function'];
+        $target ??= debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'];
 
         $component ??= static::class;
 
-        return 'livewire-rate-limiter:'.sha1($component.'|'.$method.'|'.request()->ip());
+        return 'livewire-rate-limiter:'.sha1($component.'|'.$target.'|'.request()->ip());
     }
 
-    protected function hitRateLimiter($method = null, $decaySeconds = 60, $component = null)
+    protected function hitRateLimiter($target = null, $decaySeconds = 60, $component = null)
     {
-        $method ??= debug_backtrace(limit: 2)[1]['function'];
+        $target ??= debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'];
 
         $component ??= static::class;
 
-        $key = $this->getRateLimitKey($method, $component);
+        $key = $this->getRateLimitKey($target, $component);
 
         RateLimiter::hit($key, $decaySeconds);
     }
 
-    protected function rateLimit($maxAttempts, $decaySeconds = 60, $method = null, $component = null)
+    protected function rateLimit($maxAttempts, $decaySeconds = 60, $target = null, $component = null)
     {
-        $method ??= debug_backtrace(limit: 2)[1]['function'];
+        $target ??= debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'];
 
         $component ??= static::class;
 
-        $key = $this->getRateLimitKey($method, $component);
+        $key = $this->getRateLimitKey($target, $component);
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             $ip = request()->ip();
             $secondsUntilAvailable = RateLimiter::availableIn($key);
 
-            throw new TooManyRequestsException($component, $method, $ip, $secondsUntilAvailable);
+            throw new TooManyRequestsException($component, $target, $ip, $secondsUntilAvailable);
         }
 
-        $this->hitRateLimiter($method, $decaySeconds, $component);
+        $this->hitRateLimiter($target, $decaySeconds, $component);
     }
 }

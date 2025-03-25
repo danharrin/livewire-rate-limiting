@@ -4,7 +4,7 @@
 
 <p align="center">
     <a href="https://github.com/danharrin/livewire-rate-limiting/actions"><img alt="Tests passing" src="https://img.shields.io/badge/Tests-passing-green?style=for-the-badge&logo=github"></a>
-    <a href="https://laravel.com"><img alt="Laravel v8.x, v9.x, v10.x, v11.x" src="https://img.shields.io/badge/Laravel-v8.x, v9.x, v10.x, v11.x-FF2D20?style=for-the-badge&logo=laravel"></a>
+    <a href="https://laravel.com"><img alt="Laravel v9.x, v10.x, v11.x, v12.x" src="https://img.shields.io/badge/Laravel-v8.x, v9.x, v10.x, v11.x, v12.x-FF2D20?style=for-the-badge&logo=laravel"></a>
     <a href="https://laravel.com"><img alt="PHP 8.0+" src="https://img.shields.io/badge/PHP-8.0+-777BB4?style=for-the-badge&logo=php"></a>
 </p>
 

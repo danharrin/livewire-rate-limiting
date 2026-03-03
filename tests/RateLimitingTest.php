@@ -8,8 +8,8 @@ use Livewire\Volt\Volt;
 
 class RateLimitingTest extends TestCase
 {
-    /** @test */
-    public function can_rate_limit()
+
+    public function test_can_rate_limit()
     {
         $component = Livewire::test(Component::class);
 
@@ -30,8 +30,7 @@ class RateLimitingTest extends TestCase
             ->assertSet('secondsUntilAvailable', 0);
     }
 
-    /** @test */
-    public function can_hit_and_clear_rate_limiter()
+    public function test_can_hit_and_clear_rate_limiter()
     {
         Livewire::test(Component::class)
             ->call('hit')
@@ -44,8 +43,7 @@ class RateLimitingTest extends TestCase
             ->assertSet('secondsUntilAvailable', 0);
     }
 
-    /** @test */
-    public function can_rate_limit_volt()
+    public function test_can_rate_limit_volt()
     {
         $this->mountVolt();
         $component = Volt::test('volt-component');
@@ -67,8 +65,7 @@ class RateLimitingTest extends TestCase
             ->assertSet('secondsUntilAvailable', 0);
     }
 
-    /** @test */
-    public function can_hit_and_clear_rate_limiter_volt()
+    public function test_can_hit_and_clear_rate_limiter_volt()
     {
         $this->mountVolt();
         Volt::test('volt-component')

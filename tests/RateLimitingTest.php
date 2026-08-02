@@ -15,7 +15,7 @@ class RateLimitingTest extends TestCase
         $version = InstalledVersions::getPrettyVersion('livewire/livewire');
 
         $this->markTestSkippedWhen(
-            version_compare($version, '4.0.0', '<'),
+            version_compare($version, 'v4.0.0', '<'),
             'Requires Livewire v4+'
         );
 

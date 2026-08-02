@@ -14,7 +14,7 @@ class TooManyRequestsException extends HttpException
         public $ip,
         public $secondsUntilAvailable,
     ) {
-        $this->minutesUntilAvailable = ceil($secondsUntilAvailable / 60);
+        $this->minutesUntilAvailable = ceil($this->secondsUntilAvailable / 60);
 
         parent::__construct(
             429,

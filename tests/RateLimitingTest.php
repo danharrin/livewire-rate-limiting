@@ -2,6 +2,7 @@
 
 namespace DanHarrin\LivewireRateLimiting\Tests;
 
+use Composer\InstalledVersions;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Livewire\Attributes\Json;
 use Livewire\Livewire;
@@ -11,6 +12,13 @@ class RateLimitingTest extends TestCase
 {
     public function test_rate_limit_throws_exception_with_status_429()
     {
+        $version = InstalledVersions::getPrettyVersion('livewire/livewire');
+
+        $this->markTestSkippedWhen(
+            version_compare($version, '4.0.0', '<'),
+            'Requires Livewire v4+'
+        );
+
         $component = Livewire::test(Component::class);
 
         $component

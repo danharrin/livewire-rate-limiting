@@ -16,15 +16,12 @@ class TooManyRequestsException extends HttpException
     ) {
         $this->minutesUntilAvailable = ceil($this->secondsUntilAvailable / 60);
 
-        parent::__construct(
-            429,
-            sprintf(
-                'Too many requests from [%s] to method [%s] on component: [%s]. Retry in %d seconds.',
-                $ip,
-                $method,
-                $component,
-                $secondsUntilAvailable,
-            )
-        );
+        parent::__construct(429, sprintf(
+            'Too many requests from [%s] to method [%s] on component: [%s]. Retry in %d seconds.',
+            $this->ip,
+            $this->method,
+            $this->component,
+            $this->secondsUntilAvailable,
+        ));
     }
 }

@@ -55,4 +55,15 @@ trait WithRateLimiting
 
         $this->hitRateLimiter($method, $decaySeconds, $component);
     }
+
+    protected function isRateLimited($maxAttempts, $method = null, $component = null)
+    {
+        $method ??= debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, limit: 2)[1]['function'];
+
+        $component ??= static::class;
+
+        $key = $this->getRateLimitKey($method, $component);
+
+        return RateLimiter::tooManyAttempts($key, $maxAttempts);
+    }
 }

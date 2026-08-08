@@ -46,7 +46,7 @@ trait WithRateLimiting
 
         $key = $this->getRateLimitKey($method, $component);
 
-        if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+        if ($this->isRateLimited($maxAttempts, $method, $component)) {
             $ip = request()->ip();
             $secondsUntilAvailable = RateLimiter::availableIn($key);
 

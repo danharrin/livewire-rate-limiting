@@ -34,6 +34,32 @@ class RateLimitingTest extends TestCase
         $this->assertSame(429, $returnsMeta[0]['status']);
     }
 
+    public function test_can_check_rate_limit()
+    {
+        $component = Livewire::test(Component::class);
+
+        $component->call('check');
+
+        $this->assertFalse(session()->pull('isRateLimited', false));
+
+        $component
+            ->call('limit')
+            ->call('limit')
+            ->call('check');
+
+        $this->assertFalse(session()->pull('isRateLimited', false));
+
+        $component
+            ->call('limit')
+            ->call('check');
+
+        $this->assertTrue(session()->pull('isRateLimited', false));
+
+        $component->call('clear');
+
+        $this->assertFalse(session()->pull('isRateLimited', false));
+    }
+
     public function test_can_rate_limit()
     {
         $component = Livewire::test(Component::class);
@@ -143,6 +169,13 @@ class Component extends \Livewire\Component
     public function fetchJson()
     {
         $this->rateLimit(1);
+    }
+
+    public function check()
+    {
+        $isRateLimited = $this->isRateLimited(3, 'limit');
+
+        session(['isRateLimited' => $isRateLimited]);
     }
 
     public function render()

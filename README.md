@@ -18,7 +18,7 @@ You can use Composer to install this package into your application:
 composer require danharrin/livewire-rate-limiting
 ```
 
-This package requires at least Laravel v8.x, when rate limiting improvements were introduced.
+This package requires at least Laravel v9.x.
 
 This package is tested to support the `file` and `redis` cache drivers, but not `array`.
 
@@ -92,22 +92,44 @@ use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 $this->rateLimit(
     $maxAttempts, // The number of times that the rate limit can be hit in the given decay period.
     $decaySeconds = 60, // The length of the decay period in seconds. By default, this is a minute.
-    $method, // The name of the method that is being rate limited. By default, this is set to the method that `$this->rateLimit()` is called from.
+    $method = null, // The name of the method that is being rate limited. By default, this is set to the method that `$this->rateLimit()` is called from.
+    $component = null, // The component class that is being rate limited. By default, this is set to the current component class.
+);
+
+/**
+ * Determine whether a Livewire method has reached `$maxAttempts` without incrementing its rate limiter.
+ *
+ * Use the same `$maxAttempts` value whenever checking or enforcing the same rate limiter.
+ */
+$this->isRateLimited(
+    $maxAttempts, // The number of attempts allowed within the decay period.
+    $method = null, // The name of the method that is being checked. By default, this is set to the method that `$this->isRateLimited()` is called from.
+    $component = null, // The component class that is being checked. By default, this is set to the current component class.
 );
 
 /**
  * Hit a method's rate limiter without consequence.
  */
 $this->hitRateLimiter(
-    $method, // The name of the method that is being rate limited. By default, this is set to the method that `$this->hitRateLimiter()` is called from.
+    $method = null, // The name of the method that is being rate limited. By default, this is set to the method that `$this->hitRateLimiter()` is called from.
     $decaySeconds = 60, // The length of the decay period in seconds. By default, this is a minute.
+    $component = null, // The component class that is being rate limited. By default, this is set to the current component class.
 );
 
 /**
  * Clear a method's rate limiter.
  */
 $this->clearRateLimiter(
-    $method, // The name of the method that is being rate limited. By default, this is set to the method that `$this->clearRateLimiter()` is called from.
+    $method = null, // The name of the method that is being rate limited. By default, this is set to the method that `$this->clearRateLimiter()` is called from.
+    $component = null, // The component class whose rate limiter should be cleared. By default, this is set to the current component class.
+);
+
+/**
+ * Get the cache key for a method's rate limiter.
+ */
+$this->getRateLimitKey(
+    $method, // The name of the method that is being rate limited.
+    $component = null, // The component class that is being rate limited. By default, this is set to the current component class.
 );
 ```
 
